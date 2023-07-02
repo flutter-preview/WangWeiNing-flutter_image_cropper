@@ -140,7 +140,15 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Widget _build(BuildContext context) {
     if(_resultImage != null){
-      return RawImage(image: _resultImage);
+      return Container(
+        width: 400,
+        height: 600,
+        child: RawImage(
+          image: _resultImage,
+          width: 564,
+          height: 875,
+        ),
+      );
     }
 
     _future = _loadImageFromAsset("assets/raw.jpg");
@@ -156,9 +164,11 @@ class _MyHomePageState extends State<MyHomePage> {
           return const Text("Loading image");
         }
         var controller = CropperController();
-        var myCropper = MyCropper(
+        var myCropper = ImageCropper(
             image: snapshot.data!,
             controller: controller,
+            viewSize: const Size(392.7, 500),
+            aspectRatio: 768 / 1024,
             onCropped: (ui.Image image) async {
               setState(()=>_resultImage = image
               );
