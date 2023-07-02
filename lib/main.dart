@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_image_cropper/controller.dart';
 import 'dart:ui' as ui;
 import 'package:path_provider/path_provider.dart';
 
@@ -64,6 +65,15 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
+  String imagePath = "";
+  late Future _future;
+  ui.Image? _resultImage;
+
+  @override
+  void initState() {
+    super.initState();
+
+  }
 
   void _incrementCounter() {
     setState(() {
@@ -78,6 +88,9 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+
+
+    
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
     //
@@ -126,26 +139,40 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Widget _build(BuildContext context) {
-    Future future = loadImage("assets/raw.jpg");
+    if(_resultImage != null){
+      return RawImage(image: _resultImage);
+    }
+
+    _future = _loadImageFromAsset("assets/raw.jpg");
     return FutureBuilder(
-      future: future,
+      future: _future,
       builder:(context, snapshot) {
 
         if(snapshot.hasError){
-          print(snapshot.error);
           return Text(snapshot.error.toString());
         }
 
         if(!snapshot.hasData){
           return const Text("Loading image");
         }
-
+        var controller = CropperController();
+        var myCropper = MyCropper(
+            image: snapshot.data!,
+            controller: controller,
+            onCropped: (ui.Image image) async {
+              setState(()=>_resultImage = image
+              );
+            },
+          );
         return Container(
           width: 400,
           height: 600,
           color: Colors.red,
-          child: MyCropper(
-            image: snapshot.data!,
+          child: Column(
+            children: [
+              SizedBox(width: 400, height: 500, child: myCropper,),
+              ElevatedButton(onPressed: () => controller.crop(), child: const Text("Crop"))
+            ],
           ),
         );
 
@@ -170,10 +197,9 @@ class _MyHomePageState extends State<MyHomePage> {
     return byteData.buffer.asUint8List();
   }
 
-  Future<ui.Image> loadImage(String assetPath) async {
+  Future<ui.Image> _loadImageFromAsset(String assetPath) async {
     var buffer = await getFileData(assetPath);
     final completer = Completer<ui.Image>();
-
     ui.decodeImageFromList(buffer, completer.complete);
     return completer.future;
   }
