@@ -42,7 +42,7 @@ class ImageCropperState extends State<ImageCropper> {
     _calculator = Calculator(
         viewSize: widget.viewSize,
         image: widget.image,
-        scale: 1.6,
+        scale: _initialScale,
         aspectRatio: widget.aspectRatio,
         move: Offset.zero);
 
@@ -93,7 +93,7 @@ class ImageCropperState extends State<ImageCropper> {
         bytes: uiBytes!.buffer,
         numChannels: 4);
 
-    var img2 = imageLib.copyCrop(img,
+    var imgCropped = imageLib.copyCrop(img,
         x: ((_data.croppingRect.left - _data.imageRect.left) ~/
                 _calculator.test() ~/
                 _calculator.scale)
@@ -137,6 +137,6 @@ class ImageCropperState extends State<ImageCropper> {
       return uiImage;
     }
 
-    widget.onCropped(await convertImageToFlutterUi(img2));
+    widget.onCropped(await convertImageToFlutterUi(imgCropped));
   }
 }
