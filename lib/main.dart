@@ -170,6 +170,7 @@ class _MyHomePageState extends State<MyHomePage> {
             viewSize: const Size(392.7, 500),
             aspectRatio: 768 / 1024,
             onCropped: (ui.Image image) async {
+              saveImage(image);
               setState(()=>_resultImage = image
               );
             },
@@ -188,8 +189,14 @@ class _MyHomePageState extends State<MyHomePage> {
 
       },
     );
-
   }
+
+  Future saveImage(ui.Image image) async {
+    var byteData = await image.toByteData(format: ui.ImageByteFormat.png);
+    var file = File("C://D/result.png");
+    var io = await file.writeAsBytes(byteData!.buffer.asUint8List());
+  }
+  
 
   Future<String> getFilePath(String assetPath) async {
     //

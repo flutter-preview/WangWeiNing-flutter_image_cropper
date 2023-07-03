@@ -9,31 +9,10 @@ class CropperPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    print("Size:$size");
     canvas.clipRect(data.viewRect);
     paintImage(canvas);
     paintMask(canvas);
     paintCropArea(canvas);
-    // var src = Rect.fromLTWH(
-    //   0, 
-    //   0,
-    //   data.image.width.toDouble(), 
-    //   data.image.height.toDouble()
-    // );
-
-    // canvas.clipRect(
-    //   data.croppingRect
-    // );
-
-    // canvas.drawImageRect(
-    //   data.image, 
-    //   src, 
-    //   data.imageRect, 
-    //   Paint()
-    // );
-
-
-    
   }
 
   void paintCropArea(Canvas canvas) {
