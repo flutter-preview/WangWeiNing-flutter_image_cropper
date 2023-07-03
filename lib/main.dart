@@ -3,11 +3,11 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_image_cropper/controller.dart';
+import 'package:flutter_image_cropper/src/controller.dart';
 import 'dart:ui' as ui;
 import 'package:path_provider/path_provider.dart';
 
-import 'cropper.dart';
+import 'src/cropper.dart';
 
 void main() {
   runApp(const MyApp());

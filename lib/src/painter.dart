@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_image_cropper/drawing_data.dart';
+import 'package:flutter_image_cropper/src/drawing_data.dart';
 
 class CropperPainter extends CustomPainter {
   

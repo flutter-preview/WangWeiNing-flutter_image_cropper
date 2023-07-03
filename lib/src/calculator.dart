@@ -1,6 +1,6 @@
 import "dart:ui";
 import "dart:math" as math;
-import 'package:flutter_image_cropper/drawing_data.dart';
+import 'package:flutter_image_cropper/src/drawing_data.dart';
 
 class Calculator {
   Image image;
